@@ -13,7 +13,7 @@ else {zeitraum = t - 1;}
 string MailText;
 string sDate = zeitraum.ToString();
 MailText = "Achtung, der Gasverbrauch-Monatszähler wird zurückgesetzt. Verbrauchswerte am Tag " # sDate # " vor dem Reset: ";
-MailText = MailText # "Zählerstand: " # zA # " m3, Verbrauch im Monat: " # sTg # " m3.  ";
+MailText = MailText # "Zählerstand: " # zA # " m3, Verbrauch im Monat: " # sMg # " m3.  ";
 
 var mBody = dom.GetObject("E-Mail.Body");
 var mSubject = dom.GetObject("E-Mail.Subject");

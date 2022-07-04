@@ -1,0 +1,24 @@
+string zA = dom.GetObject("Strom Zaehlerstand").Value();
+string sWg = dom.GetObject("Strom Verbrauch laufende Woche").Value();
+var vWg = dom.GetObject("Strom Verbrauch laufende Woche");
+var vWz = dom.GetObject("Strom Referenz Verbrauch laufende Woche");
+var zeitraum;
+! Zwischenwert in Variable speichern
+vWz.State(vWg.State() + vWz.State());
+! Zeitwert um 1 subtrahieren
+time t = system.Date("%V").ToInteger();
+if (t == 1) {zeitraum = "Letzte KW im Vorjahr";}
+else {zeitraum = t - 1;}
+! Push-Text zusammensetzen
+string MailText;
+string sDate = zeitraum.ToString();
+MailText = "Achtung, der Stromverbrauch-Wochenzähler wird zurückgesetzt. Verbrauchswerte am Tag " # sDate # " vor dem Reset: ";
+MailText = MailText # "Zählerstand: " # zA # " kWh, Verbrauch in der Woche: " # sWg # " kWh.  ";
+
+var mBody = dom.GetObject("E-Mail.Body");
+var mSubject = dom.GetObject("E-Mail.Subject");
+var mVersand = dom.GetObject("E-Mail.Versand");
+
+mBody.State(MailText);
+mSubject.State("Stromverbrauch");
+mVersand.State(2);
