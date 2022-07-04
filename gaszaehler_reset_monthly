@@ -1,0 +1,24 @@
+string zA = dom.GetObject("Gas Zaehlerstand").Value();
+string sMg = dom.GetObject("Gas Verbrauch laufender Monat").Value();
+var vMg = dom.GetObject("Gas Verbrauch laufender Monat");
+var vMz = dom.GetObject("Gas Referenz Verbrauch laufender Monat");
+var zeitraum;
+! Zwischenwert in Variable speichern
+vMz.State(vMg.State() + vMz.State());
+! Zeitwert um 1 subtrahieren
+time t = system.Date("%m").ToInteger();
+if (t == 1) {zeitraum = 12;}
+else {zeitraum = t - 1;}
+! Push-Text zusammensetzen
+string MailText;
+string sDate = zeitraum.ToString();
+MailText = "Achtung, der Gasverbrauch-Monatszähler wird zurückgesetzt. Verbrauchswerte am Tag " # sDate # " vor dem Reset: ";
+MailText = MailText # "Zählerstand: " # zA # " m3, Verbrauch im Monat: " # sTg # " m3.  ";
+
+var mBody = dom.GetObject("E-Mail.Body");
+var mSubject = dom.GetObject("E-Mail.Subject");
+var mVersand = dom.GetObject("E-Mail.Versand");
+
+mBody.State(MailText);
+mSubject.State("Gasverbrauch");
+mVersand.State(2);
